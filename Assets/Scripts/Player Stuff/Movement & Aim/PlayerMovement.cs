@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RaycastCollisions))]
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-
     public float speed = 12f;
     public float jumpSpeed = 10f;
     public float gravity = -9.81f;
@@ -20,9 +20,13 @@ public class PlayerMovement : MonoBehaviour
     float dashDuration = .4f;
     float dashSpeed;
 
+    [HideInInspector]
+    public RaycastCollisions raycastCollisions;
+
 
     void Start()
     {
+        raycastCollisions = GetComponent<RaycastCollisions>();
         dashSpeed = speed * 4f;
     }
     void Update()
@@ -41,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         
         else if(!isDashing)
         {
-        Debug.Log("Moving Normally");
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         Vector3 move = transform.right * inputX + transform.forward * inputZ;
@@ -62,6 +65,10 @@ public class PlayerMovement : MonoBehaviour
         }
         controller.Move(move * speed * Time.deltaTime); //Horizontal Movement
 
+        raycastCollisions.VerticalCollisions(ref velocity);
+
+        Debug.Log("velocity " + velocity);
+        
         controller.Move(velocity * Time.deltaTime); //Vertical Movement
         }
     }
@@ -94,6 +101,5 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-        Debug.Log("Can Dash Again");
     }
 }
