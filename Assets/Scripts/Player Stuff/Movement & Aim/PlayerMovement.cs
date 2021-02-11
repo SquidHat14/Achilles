@@ -45,13 +45,13 @@ public class PlayerMovement : MonoBehaviour
         
         else if(!isDashing)
         {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         Vector3 move = transform.right * inputX + transform.forward * inputZ;
 
         velocity.y += gravity * Time.deltaTime;
 
-        if(isGrounded)
+        if(raycastCollisions.collisions.below)
         {
             if(velocity.y < 0)
             {
