@@ -53,16 +53,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(raycastCollisions.collisions.below)
         {
-            if(velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
-
             if(jump != 0)
             {
                 velocity.y = jumpSpeed;
             }
         }
+        
         controller.Move(move * speed * Time.deltaTime); //Horizontal Movement
 
         raycastCollisions.VerticalCollisions(ref velocity);

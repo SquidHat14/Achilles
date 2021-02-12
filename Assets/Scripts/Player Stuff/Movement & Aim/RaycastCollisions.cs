@@ -36,14 +36,14 @@ public class RaycastCollisions: MonoBehaviour {
   public void VerticalCollisions(ref Vector3 moveAmount) {
     collisions.Reset();
     float directionY = Mathf.Sign(moveAmount.y);
-    float rayLength = Mathf.Abs(moveAmount.y) * Time.deltaTime;
+    float rayLength = capsuleRadius * scale.y + Mathf.Abs(moveAmount.y) * Time.deltaTime;
 
-    float y = this.transform.position.y + (capsuleHeight / 2 * directionY) * scale.y;
+    float y = this.transform.position.y + (((capsuleHeight / 2) - capsuleRadius) * directionY) * scale.y;
     //the Y values of the raycast origin
     for (int i = 0; i < numRays; i++) //get x and z coordinates
     {
-      float x = this.transform.position.x + Mathf.Cos(i * angleIncrement) * capsuleRadius * scale.x;
-      float z = this.transform.position.z + Mathf.Sin(i * angleIncrement) * capsuleRadius * scale.z;
+      float x = this.transform.position.x + Mathf.Cos(i * angleIncrement) * (capsuleRadius + skinWidth) * scale.x;
+      float z = this.transform.position.z + Mathf.Sin(i * angleIncrement) * (capsuleRadius + skinWidth) * scale.z;
       Vector3 rayOrigin = new Vector3(x, y, z);
       RaycastHit[] hits = Physics.RaycastAll(rayOrigin, Vector3.up * directionY, rayLength, collisionMask);
 
