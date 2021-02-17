@@ -9,11 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 12f;
     public float jumpSpeed = 10f;
     public float gravity = -9.81f;
-    public Transform groundCheck;
-    public float groundDistance = 0.5f;
-    public LayerMask groundMask;
     Vector3 velocity;
-    bool isGrounded;
     bool isDashing;
     bool canDash = true;
     float dashCooldown = .1f;
@@ -58,14 +54,9 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = jumpSpeed;
             }
         }
-        
-        controller.Move(move * speed * Time.deltaTime); //Horizontal Movement
 
-        raycastCollisions.VerticalCollisions(ref velocity);
+        raycastCollisions.Move(ref velocity, ref move, speed, controller);//Another script handles the movement after the collisions
 
-        Debug.Log("velocity " + velocity);
-        
-        controller.Move(velocity * Time.deltaTime); //Vertical Movement
         }
     }
 
